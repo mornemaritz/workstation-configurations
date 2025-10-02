@@ -1,0 +1,52 @@
+# Disable HA for all components
+replicaCount: 1
+
+valkey-cluster:
+  enabled: false
+valkey:
+  enabled: true
+postgresql:
+  enabled: true
+postgresql-ha:
+  enabled: false
+
+gitea:
+  config:
+    database:
+      DB_TYPE: postgres
+    indexer:
+      ISSUE_INDEXER_TYPE: bleve
+      REPO_INDEXER_ENABLED: true
+
+memcached:
+  enabled: false
+
+redis-cluster:
+  enabled: false
+
+# # Ingress configuration
+ingress:
+  enabled: true
+  className: nginx
+  # tls:
+  #   - secretName: gitea-tls-secret
+  #     hosts:
+  #       - gitea.local
+  hosts:
+    - host: gitea.local
+
+# Other recommended settings
+service:
+  http:
+    annotations:
+     metallb.io/allow-shared-ip: "gitea-30.30.30.3"
+    type: LoadBalancer
+    loadBalancerIP: "30.30.30.3"
+  ssh:
+    annotations:
+      metallb.io/allow-shared-ip: "gitea-30.30.30.3"
+    type: LoadBalancer
+    loadBalancerIP: "30.30.30.3"
+
+persistence:
+  enabled: true
