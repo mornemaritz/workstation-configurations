@@ -1,0 +1,85 @@
+format = """
+[](#062951)\
+$username\
+[](fg:#062951 bg:#a1bf24)\
+$directory\
+[](fg:#a1bf24 bg:#13192d)\
+$dotnet\
+$nodejs\
+[](fg:#13192d bg:#1983c2)\
+$docker_context\
+$kubernetes\
+$terraform\
+$azure\
+[](fg:#1983c2 bg:#ecedec)\
+$git_branch\
+$git_status\
+[](fg:#ecedec bg:#268b42)\
+$time\
+[ ](fg:#268b42)\
+"""
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# You can also replace your username with a neat symbol like   or disable this
+# and use the os module below
+[username]
+show_always = true
+style_user = "fg:#a1bf24 bg:#062951"
+style_root = "fg:#a1bf24 bg:#062951"
+format = '[$user ]($style)'
+disabled = false
+
+# An alternative to the username module which displays a symbol that
+# represents the current operating system
+[os]
+style = "bg:#9A348E"
+disabled = true # Disabled by default
+
+[directory]
+style = "bg:#a1bf24 fg:#062951"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"~" = "🏡 "
+
+[dotnet]
+symbol = " "
+style = "fg:#a1bf24 bg:#13192d"
+format = "[ $symbol ]($style)"
+
+[nodejs]
+symbol = " "
+style = "fg:#a1bf24 bg:#13192d"
+format = '[ $symbol ($version) ]($style)'
+
+[docker_context]
+symbol = " "
+style = "fg:#a1bf24 bg:#13192d"
+format = '[ $symbol $context ]($style)'
+
+[kubernetes]
+symbol = " "
+style = "fg:#ecedec bg:#1983c2"
+format = '[ $symbol($user on )($cluster in )$context \($namespace\)]($style)'
+disabled = false
+
+[git_branch]
+symbol = ""
+style = "bg:#ecedec fg:#13192d"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:#ecedec fg:#13192d"
+format = '[$all_status$ahead_behind ]($style)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:#268b42"
+format = '[ $time ]($style)'
