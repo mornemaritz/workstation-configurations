@@ -91,6 +91,12 @@ Installation and basic setup:
 sudo snap install microk8s --classic --channel=latest/stable
 microk8s config view > ~/.kube/config
 microk8s enable hostpath-storage
+mount --make-rshared / # This is to prevent the error message "path "/var/run/netns" is mounted on "/" but it is not a shared or slave mount" when enabling kube-ovn addon"
+microk8s enable kube-ovn --force # This addon is fully supported by metallb. The default calico networking pluggin is "mostly" supported https://metallb.io/installation/network-addons/. It does not seem to allow access to k8s services from the host which I've been unable to debug and may be related to one of the known issues
+microk8s enable ingress
+microk8s enable metallb 30.30.30.1-30.30.30.10 # Ip Range of the MS Test Loopback adapter added above
+
+
 ```
 
 Testing and Features:
@@ -177,5 +183,6 @@ Configure load balancing for Gitea services:
 kubectl patch svc gitea-http -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 kubectl patch svc gitea-ssh -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 ```
+
 
 
