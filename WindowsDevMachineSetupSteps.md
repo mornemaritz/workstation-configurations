@@ -90,6 +90,7 @@ Installation and basic setup:
 ```bash
 sudo snap install microk8s --classic --channel=latest/stable
 microk8s config view > ~/.kube/config
+microk8s enable hostpath-storage
 ```
 
 Testing and Features:
@@ -98,7 +99,7 @@ Testing and Features:
 - Enable ingress: `PUBLISH_STATUS_ADDRESS=$CURRENT_IP microk8s enable ingress`
 - Enable metallb: `microk8s enable metallb 30.30.30.3-30.30.30.10`
 
-> Note: As of 2025.09.09, access to mikrok8s services in WSL from host is not working
+> Note: As of 2025.09.09, access to mikrok8s services via metallb in WSL from host is not working
 
 #### Network Change Procedure
 
@@ -176,4 +177,5 @@ Configure load balancing for Gitea services:
 kubectl patch svc gitea-http -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 kubectl patch svc gitea-ssh -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 ```
+
 
