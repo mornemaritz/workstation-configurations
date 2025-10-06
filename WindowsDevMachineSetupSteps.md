@@ -12,6 +12,18 @@
 
 - WSL ([Microsoft Installation Guide](https://learn.microsoft.com/en-us/windows/wsl/install))
   > Note: Manual enabling of WSL supporting features required despite documentation
+- wsl.conf (note hostname. this should be all lowercase. microk8s warns about hostnames containing uppercase letters and the kube-ovn addon fails to install with a non-standard hostname)
+- ```
+  [boot]
+  systemd=true
+  
+  [user]
+  default={lowercase}
+  
+  [network]
+  generateHosts = false
+  hostname={follow the DNS label standard as defined in RFC 1123 - lowercase, only "-" seperator, must start with an alphabetic character, must end with an alphanumeric character}
+  ```
 
 ### Package Managers
 
@@ -164,3 +176,4 @@ Configure load balancing for Gitea services:
 kubectl patch svc gitea-http -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 kubectl patch svc gitea-ssh -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 ```
+
