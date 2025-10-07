@@ -95,6 +95,7 @@ mount --make-rshared / # This is to prevent the error message "path "/var/run/ne
 microk8s enable kube-ovn --force # This addon is fully supported by metallb. The default calico networking pluggin is "mostly" supported https://metallb.io/installation/network-addons/. It does not seem to allow access to k8s services from the host which I've been unable to debug and may be related to one of the known issues
 microk8s enable ingress
 microk8s enable metallb 30.30.30.1-30.30.30.10 # Ip Range of the MS Test Loopback adapter added above
+# If enabling metallb keeps failing with "Failed to create default address pool - Post https://webhook-service.metallb-system.svc:443/validate-metallb-io-v1beta1-ipaddresspool?timeout=10s: context deadline exceeded", remove and purge microk8s and reinstall resolved this.
 
 
 ```
@@ -183,6 +184,7 @@ Configure load balancing for Gitea services:
 kubectl patch svc gitea-http -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 kubectl patch svc gitea-ssh -n gitea -p '{ "metadata": { "annotations": { "metallb.io/allow-shared-ip": "gitea-30.30.30.3"}}, "spec": {"loadBalancerIP": "30.30.30.3"}}'
 ```
+
 
 
 
